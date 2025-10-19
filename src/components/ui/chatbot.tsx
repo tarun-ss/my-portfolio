@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, Send, Mic, Paperclip, X, Bot, User, Volume2, FileImage } from 'lucide-react';
 import { GradientButton } from "@/components/ui/gradient-button";
 import { cn } from '@/lib/utils';
-
+import Groq from 'groq-sdk';
 interface Message {
   sender: 'user' | 'bot';
   text?: string;
@@ -27,8 +27,7 @@ export const AiChatbot = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Groq API Key
-  const GROQ_API_KEY = "";
-
+  const GROQ_API_KEY = new Groq({apiKey: process.env.GROQ_API_KEY,});
   const systemPrompt = `You are AVA (AI Virtual Assistant), a helpful and friendly AI assistant on S Tarun's portfolio website. While your primary purpose is to help visitors learn about Tarun, you're also happy to chat about other topics!
 
 **Your Knowledge Base (S Tarun):**
