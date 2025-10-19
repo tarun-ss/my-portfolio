@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, Send, Mic, Paperclip, X, Bot, User, Volume2, FileImage } from 'lucide-react';
 import { GradientButton } from "@/components/ui/gradient-button";
 import { cn } from '@/lib/utils';
-import Groq from 'groq-sdk';
+
 interface Message {
   sender: 'user' | 'bot';
   text?: string;
@@ -26,26 +26,6 @@ export const AiChatbot = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Groq API Key
-  const GROQ_API_KEY = new Groq({apiKey: process.env.GROQ_API_KEY,});
-  const systemPrompt = `You are AVA (AI Virtual Assistant), a helpful and friendly AI assistant on S Tarun's portfolio website. While your primary purpose is to help visitors learn about Tarun, you're also happy to chat about other topics!
-
-**Your Knowledge Base (S Tarun):**
-- **Profession:** Electronics and Computer Engineering graduate from VIT with 8.18 CGPA.
-- **Expertise:** Machine learning, data analysis, and full-stack software development.
-- **Experience:** Interned at HAL, working on avionics for LCA Tejas aircraft.
-- **Skills:** Python, Java, C, R, JavaScript, HTML5, CSS3, React, Node.js, Scikit-Learn, OpenCV, MySQL, MATLAB, JIRA.
-- **Projects:** ML for Environmental Monitoring, Biomedical Data Analysis, Full-Stack Web Apps, Advanced Materials Classification.
-- **Location:** Bangalore, India.
-
-**Your Personality & Approach:**
-1. **Be helpful and versatile**: Answer questions about Tarun's work, but also engage with general questions, tech discussions, career advice, or casual conversation.
-2. **Stay natural**: Use a friendly, conversational tone. Emojis are welcome when appropriate! 😊
-3. **Maintain context**: Remember what was discussed earlier in the conversation.
-4. **Be concise**: Keep responses brief (2-4 sentences) unless the user asks for more detail.
-5. **When off-topic**: Feel free to answer general questions! If relevant, gently tie back to Tarun's expertise.
-6. **For Tarun-specific unknowns**: If you don't know something specific about Tarun, suggest contacting him directly through the portfolio.`;
-
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!isOpen) {
@@ -65,26 +45,23 @@ export const AiChatbot = () => {
       
       // Remove emojis from the text before speaking
       const cleanText = text
-        .replace(/[\u{1F600}-\u{1F64F}]/gu, '') // Emoticons
-        .replace(/[\u{1F300}-\u{1F5FF}]/gu, '') // Symbols & Pictographs
-        .replace(/[\u{1F680}-\u{1F6FF}]/gu, '') // Transport & Map
-        .replace(/[\u{1F1E0}-\u{1F1FF}]/gu, '') // Flags
-        .replace(/[\u{2600}-\u{26FF}]/gu, '')   // Misc symbols
-        .replace(/[\u{2700}-\u{27BF}]/gu, '')   // Dingbats
-        .replace(/[\u{FE00}-\u{FE0F}]/gu, '')   // Variation Selectors
-        .replace(/[\u{1F900}-\u{1F9FF}]/gu, '') // Supplemental Symbols
-        .replace(/[\u{1FA00}-\u{1FA6F}]/gu, '') // Chess Symbols
+        .replace(/[\u{1F600}-\u{1F64F}]/gu, '') 
+        .replace(/[\u{1F300}-\u{1F5FF}]/gu, '') 
+        .replace(/[\u{1F680}-\u{1F6FF}]/gu, '') 
+        .replace(/[\u{1F1E0}-\u{1F1FF}]/gu, '') 
+        .replace(/[\u{2600}-\u{26FF}]/gu, '')   
+        .replace(/[\u{2700}-\u{27BF}]/gu, '')   
+        .replace(/[\u{FE00}-\u{FE0F}]/gu, '')   
+        .replace(/[\u{1F900}-\u{1F9FF}]/gu, '') 
+        .replace(/[\u{1FA00}-\u{1FA6F}]/gu, '') 
         .trim();
       
-      if (!cleanText) return; // Don't speak if only emojis
+      if (!cleanText) return; 
       
       const utterance = new SpeechSynthesisUtterance(cleanText);
       
-      // Get available voices and select the best one
       const voices = speechSynthesis.getVoices();
       
-      // Try to find a natural-sounding English voice
-      // Priority: Google voices > Microsoft voices > Others
       const preferredVoice = voices.find(voice => 
         (voice.name.includes('Google') || voice.name.includes('Samantha') || voice.name.includes('Female')) && 
         voice.lang.startsWith('en')
@@ -98,10 +75,9 @@ export const AiChatbot = () => {
         utterance.voice = preferredVoice;
       }
       
-      // Adjust speech parameters for more natural sound
-      utterance.rate = 1.0;      // Normal speed (0.1 to 10)
-      utterance.pitch = 1.1;     // Slightly higher pitch (0 to 2)
-      utterance.volume = 1.0;    // Full volume (0 to 1)
+      utterance.rate = 1.0;      
+      utterance.pitch = 1.1;     
+      utterance.volume = 1.0;    
       
       utterance.onstart = () => {
         setIsSpeaking(true);
@@ -134,101 +110,61 @@ export const AiChatbot = () => {
       text: input.trim(), 
       imageUrl: selectedImage ? URL.createObjectURL(selectedImage) : undefined 
     };
-    const newMessages = [...messages, userMessage];
-    setMessages(newMessages);
-    const userInput = input.trim();
+    
+    setMessages(prev => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
     setSelectedImage(null);
 
     try {
-      // Groq API endpoint
-      const apiUrl = 'https://api.groq.com/openai/v1/chat/completions';
-
-      console.log('Sending request to Groq...');
-
-      // Build conversation history
-      const conversationHistory = newMessages.slice(-6).map(msg => ({
+      // Build conversation history - include the new user message
+      const conversationHistory = [...messages, userMessage].slice(-6).map(msg => ({
         role: msg.sender === 'user' ? 'user' : 'assistant',
         content: msg.text || ''
       }));
 
-      // Add system prompt at the beginning
-      const messagesPayload = [
-        { role: 'system', content: systemPrompt },
-        ...conversationHistory
-      ];
-
-      const payload = {
-        model: 'llama-3.3-70b-versatile', // Latest Llama 3.3 model
-        messages: messagesPayload,
-        temperature: 0.7,
-        max_tokens: 1024,
-        top_p: 0.9,
-        stream: false
-      };
-
-      console.log('Payload created with', messagesPayload.length, 'messages');
-
-      const response = await fetch(apiUrl, {
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${GROQ_API_KEY}`
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ conversationHistory }),
       });
-
-      console.log('Response status:', response.status);
 
       if (!response.ok) {
         const errorBody = await response.json();
-        console.error('API Error:', errorBody);
-        
-        if (response.status === 429) {
-          throw new Error('Rate limit exceeded. Please wait a moment! 😊');
-        } else if (response.status === 401) {
-          throw new Error('API key issue. Please check configuration.');
-        } else {
-          throw new Error(`API error: ${errorBody.error?.message || 'Unknown error'}`);
-        }
+        throw new Error(errorBody.error || 'API request failed');
       }
 
       const data = await response.json();
-      console.log('Response received');
+      const botText = data.botText;
       
-      if (!data.choices || !data.choices[0]?.message?.content) {
-        console.error('Unexpected response:', data);
-        throw new Error('Unexpected response format');
+      if (!botText) {
+        throw new Error('No response from assistant');
       }
-
-      const botText = data.choices[0].message.content;
-      console.log('Bot response length:', botText.length);
-      
-      const botMessage: Message = { sender: 'bot', text: botText };
       
       setMessages(prev => {
+        const botMessage: Message = { sender: 'bot', text: botText };
         const updatedMessages = [...prev, botMessage];
+        // Speak the response
         speak(botText, updatedMessages.length - 1);
         return updatedMessages;
       });
 
     } catch (error: any) {
       console.error('Error:', error);
-      let errorText = "Sorry, I'm having trouble right now. ";
       
-      if (error.message.includes('Rate limit')) {
-        errorText = "I've reached my rate limit. Please try again in a moment! 😊";
-      } else if (error.message.includes('API key')) {
-        errorText = "Configuration issue. Please contact Tarun directly through the contact form.";
-      } else if (error.message.includes('network') || error.message.includes('fetch')) {
-        errorText = "Network connection issue. Please check your internet and try again.";
-      } else {
-        errorText = `Error: ${error.message}. Please try again or use the contact form.`;
+      let errorText = "Sorry, I'm having trouble right now. Please try again! 😊";
+      
+      if (error.message.includes('Configuration issue')) {
+        errorText = "I encountered a configuration issue. Please ensure the GROQ_API_KEY is set in your .env.local file and restart the server.";
+      } else if (error.message.includes('busy')) {
+        errorText = "I'm a bit busy right now. Please try again in a moment! 😊";
+      } else if (error.message) {
+        errorText = `${error.message}. Please try again or contact Tarun directly.`;
       }
       
-      const errorMessage: Message = { sender: 'bot', text: errorText };
-      setMessages(prev => [...prev, errorMessage]);
+      setMessages(prev => [...prev, { sender: 'bot', text: errorText }]);
     } finally {
       setIsLoading(false);
     }
@@ -241,7 +177,6 @@ export const AiChatbot = () => {
 
   const handleMicClick = () => {
     setIsRecording(!isRecording);
-    // Note: Actual speech recognition would need additional implementation
   };
   
   const handlePaperclipClick = () => {
@@ -251,8 +186,6 @@ export const AiChatbot = () => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setSelectedImage(event.target.files[0]);
-      // Note: Groq doesn't support image analysis in the free tier
-      // Images are shown but not analyzed
     }
   };
 
