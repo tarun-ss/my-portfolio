@@ -1,4 +1,4 @@
-"use client"; // This line is the fix
+"use client";
 
 import { ShaderAnimation } from "@/components/ui/shader-animation";
 import { ContainerTextScroll } from "@/components/ui/container-text-scroll";
@@ -223,7 +223,7 @@ export default function HomePage() {
         {/* SECTIONS WRAPPER */}
         <div className="relative bg-black/80 backdrop-blur-sm">
             {/* SECTION 3: SKILLS */}
-            <section id="skills">
+            <section id="skills" className="scroll-mt-20">
             <ContainerScroll
                 titleComponent={
                 <h2 className="text-4xl font-semibold text-white text-center">
@@ -242,12 +242,12 @@ export default function HomePage() {
             </section>
 
             {/* SECTION 4: EXPERIENCE */}
-            <section id="experience">
+            <section id="experience" className="scroll-mt-20">
             <Timeline data={experienceData} />
             </section>
 
             {/* SECTION 5: PROJECTS */}
-            <section id="projects" className="py-20 lg:py-32">
+            <section id="projects" className="py-20 lg:py-32 scroll-mt-20">
               <div className="container mx-auto px-4">
                     <h2 className="text-4xl md:text-7xl font-bold text-white text-center mb-12">
                         My Projects
@@ -257,7 +257,7 @@ export default function HomePage() {
             </section>
 
             {/* SECTION 6: CONTACT */}
-            <section id="contact">
+            <section id="contact" className="scroll-mt-20">
                 <PremiumContact contactDetails={userContactDetails} />
             </section>
 
@@ -270,4 +270,3 @@ export default function HomePage() {
     </div>
   );
 }
-
