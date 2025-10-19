@@ -204,7 +204,7 @@ export default function HomePage() {
                     </h2>
                     <div className="h-40 md:h-48 w-full flex items-center justify-center">
                         <GooeyText
-                            texts={["S TARUN", "Developer", "Engineer", "Creator"]}
+                            texts={["TARUN", "Developer", "Engineer", "Creator"]}
                             morphTime={2.5}
                             cooldownTime={0.8}
                             className="font-bold w-full"
