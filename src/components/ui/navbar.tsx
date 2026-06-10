@@ -9,9 +9,10 @@ export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navLinks = [
-    { href: "#projects", label: "Projects" },
-    { href: "#experience", label: "Experience" },
+    { href: "#about", label: "About" },
     { href: "#skills", label: "Skills" },
+    { href: "#experience", label: "Experience" },
+    { href: "#projects", label: "Projects" },
   ];
 
   return (
@@ -20,7 +21,7 @@ export function Navbar() {
         <div className="container mx-auto flex items-center justify-between p-4 bg-black/30 backdrop-blur-sm border border-white/10 rounded-full">
           {/* Name/Logo */}
           <Link href="/" className="text-4xl font-bold text-white">
-            S TARUN
+            Tarun S.
           </Link>
 
           {/* Desktop Navigation */}
@@ -34,7 +35,6 @@ export function Navbar() {
 
           {/* Desktop Socials & Contact */}
           <div className="hidden md:flex items-center gap-4">
-            {/* GitHub and LinkedIn icons */}
             <GradientButton asChild variant="variant" className="p-3 rounded-full min-w-0">
               <a href="https://github.com/tarun-ss" target="_blank" rel="noopener noreferrer">
                 <Github className="h-7 w-7 text-white" />
@@ -45,7 +45,6 @@ export function Navbar() {
                 <Linkedin className="h-7 w-7 text-white" />
               </a>
             </GradientButton>
-            {/* Changed to scroll to #contact instead of mailto */}
             <GradientButton asChild className="px-6 py-3 text-lg">
               <Link href="#contact">
                 <Mail className="h-5 w-5 mr-2" />
@@ -77,7 +76,6 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
-            {/* Social links in mobile menu */}
             <div className="flex items-center gap-4 mt-4">
               <GradientButton asChild variant="variant" className="p-3 rounded-full min-w-0">
                 <a href="https://github.com/tarun-ss" target="_blank" rel="noopener noreferrer">
@@ -90,7 +88,6 @@ export function Navbar() {
                 </a>
               </GradientButton>
             </div>
-            {/* Changed to scroll to #contact in mobile menu too */}
             <GradientButton asChild className="w-full mt-4 py-4 text-xl">
               <Link href="#contact" onClick={() => setIsMenuOpen(false)}>
                 <Mail className="h-6 w-6 mr-2" />

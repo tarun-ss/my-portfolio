@@ -1,21 +1,37 @@
 import Groq from 'groq-sdk';
 import { NextResponse } from 'next/server';
 
-// Initialize Groq client here. It runs securely on the server (Node.js).
-const GROQ_CLIENT = new Groq({ 
-    apiKey: process.env.GROQ_API_KEY 
-});
+// Client is lazily initialized to avoid build-time errors when the env var isn't set.
+let groqClient: Groq | null = null;
+
+function getGroqClient() {
+  if (!groqClient) {
+    groqClient = new Groq({ apiKey: process.env.GROQ_API_KEY });
+  }
+  return groqClient;
+}
 
 // The system prompt is defined once for the server.
-const systemPrompt = `You are AVA (AI Virtual Assistant), a helpful and friendly AI assistant on S Tarun's portfolio website. While your primary purpose is to help visitors learn about Tarun, you're also happy to chat about other topics!
+const systemPrompt = `You are AVA (AI Virtual Assistant), a helpful and friendly AI assistant on Tarun Sathyanarayanan's portfolio website. While your primary purpose is to help visitors learn about Tarun, you're also happy to chat about other topics!
 
-**Your Knowledge Base (S Tarun):**
-- **Profession:** Electronics and Computer Engineering graduate from VIT with 8.18 CGPA.
-- **Expertise:** Machine learning, data analysis, and full-stack software development.
-- **Experience:** Interned at HAL, working on avionics for LCA Tejas aircraft.
-- **Skills:** Python, Java, C, R, JavaScript, HTML5, CSS3, React, Node.js, Scikit-Learn, OpenCV, MySQL, MATLAB, JIRA.
-- **Projects:** ML for Environmental Monitoring, Biomedical Data Analysis, Full-Stack Web Apps, Advanced Materials Classification.
-- **Location:** Bangalore, India.
+**Your Knowledge Base (Tarun Sathyanarayanan):**
+- **Current Status:** Data Science Master's student at the University of Basel (Feb 2026 – Present), focusing on natural sciences, mathematics, and statistics.
+- **Education:** B.Tech in Electronics & Computer Engineering from VIT (Jul 2021 – May 2025), CGPA 8.18/10. Coursework: Machine Learning, Computer Vision, Signal Processing, Data Structures, Algorithms, Embedded Systems.
+- **Location:** Basel, Switzerland (previously Bangalore, India).
+- **Experience:** Technical Intern at Hindustan Aeronautics Limited (HAL), India (Aug–Sept 2023). Gained exposure to aerospace systems and engineering processes in a high-tech manufacturing environment.
+- **Skills:**
+  - Programming: Python, Java, JavaScript, HTML, R, R Markdown
+  - Libraries & Frameworks: Scikit-learn, Pandas, NumPy, Streamlit, U-Net
+  - Developer Tools: Git, GitHub, Jupyter, VS Code
+  - Languages: English (C1), German (A1)
+- **Key Projects:**
+  1. Autonomous Prospect Search Agent (Jan 2026) — An autonomous software agent to discover B2B companies and contacts within the USA using ICP filtering.
+  2. Formula 1 Prediction Model (Dec 2025) — Predictive modeling tool for F1 race results using Python and historical data analysis.
+  3. Job Search Automation Tool / Jobhunt (Sept–Nov 2025) — Programmatic solution to automate job hunting and applications.
+  4. Microplastics Detection Using Machine Learning (Mar–Jul 2024) — ML models for predicting microplastic contamination in soil.
+  5. Hyperspectral U-Net Metal Classifier (Jan–Dec 2024) — U-Net CNN for hyperspectral image segmentation with 85%+ accuracy and a Streamlit interface.
+- **Contact:** Email: tarun.sathya23@gmail.com, Phone: +41 779904139
+- **Socials:** GitHub: tarun-ss, LinkedIn: Tarun S
 
 **Your Personality & Approach:**
 1. **Be helpful and versatile**: Answer questions about Tarun's work, but also engage with general questions, tech discussions, career advice, or casual conversation.
@@ -41,7 +57,7 @@ export async function POST(request: Request) {
             ...conversationHistory
         ];
 
-        const chatCompletion = await GROQ_CLIENT.chat.completions.create({
+        const chatCompletion = await getGroqClient().chat.completions.create({
             model: 'llama-3.3-70b-versatile',
             messages: messagesPayload as any, 
             temperature: 0.7,

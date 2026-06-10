@@ -38,10 +38,10 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
     >
       <div className="max-w-7xl mx-auto py-20 px-4 md:px-8 lg:px-10">
         <h2 className="text-4xl md:text-7xl mb-4 text-white text-center font-bold">
-          Professional Experience
+          Experience & Education
         </h2>
         <p className="text-neutral-300 text-base md:text-lg max-w-2xl mx-auto text-center">
-          A timeline of my practical experience and contributions in the industry.
+          A timeline of my academic journey and professional experience.
         </p>
       </div>
 

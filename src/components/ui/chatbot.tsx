@@ -202,7 +202,7 @@ export const AiChatbot = () => {
               className="bg-zinc-900 border border-white/10 p-4 rounded-lg shadow-2xl max-w-xs text-center"
             >
               <p className="text-white text-sm">
-                Have a question about Tarun? Click me to ask his virtual assistant!
+                Have a question about Tarun? Click me to ask his AI assistant!
               </p>
             </motion.div>
           )}
@@ -220,7 +220,7 @@ export const AiChatbot = () => {
               <div className="flex justify-between items-center p-4 border-b border-white/10">
                 <div className="flex items-center gap-2">
                   <Bot className="text-white"/>
-                  <h3 className="font-bold text-white">S Tarun's Assistant</h3>
+                  <h3 className="font-bold text-white">Tarun's Assistant</h3>
                 </div>
                 <button onClick={() => setIsOpen(false)} className="text-white/50 hover:text-white">
                   <X size={20} />
@@ -282,8 +282,8 @@ export const AiChatbot = () => {
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                    placeholder="Ask about S Tarun..."
+                    onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                    placeholder="Ask about Tarun..."
                     className="w-full bg-zinc-800 text-white placeholder:text-white/40 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
                     disabled={isLoading}
                   />
