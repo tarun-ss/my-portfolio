@@ -19,12 +19,10 @@ export function Navbar() {
     <>
       <header className="fixed top-4 left-0 right-0 z-50 px-4">
         <div className="container mx-auto flex items-center justify-between p-4 bg-black/30 backdrop-blur-sm border border-white/10 rounded-full">
-          {/* Name/Logo */}
-          <Link href="/" className="text-4xl font-bold text-white">
+          <Link href="/" className="text-xl sm:text-2xl font-bold text-white">
             Tarun S.
           </Link>
 
-          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-4 text-lg font-medium text-slate-300">
             {navLinks.map((link) => (
               <Link key={link.href} href={link.href} className="hover:text-white transition-colors px-3 py-2">
@@ -33,7 +31,6 @@ export function Navbar() {
             ))}
           </nav>
 
-          {/* Desktop Socials & Contact */}
           <div className="hidden md:flex items-center gap-4">
             <GradientButton asChild variant="variant" className="p-3 rounded-full min-w-0">
               <a href="https://github.com/tarun-ss" target="_blank" rel="noopener noreferrer">
@@ -53,7 +50,6 @@ export function Navbar() {
             </GradientButton>
           </div>
 
-          {/* Mobile Menu Button */}
           <div className="md:hidden">
             <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
               {isMenuOpen ? <X className="h-8 w-8 text-white" /> : <Menu className="h-8 w-8 text-white" />}
@@ -62,7 +58,6 @@ export function Navbar() {
         </div>
       </header>
 
-      {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden fixed top-24 left-0 right-0 z-40 mx-4">
           <div className="bg-black/50 backdrop-blur-lg border border-white/10 rounded-2xl p-6 flex flex-col items-center gap-6">
