@@ -12,7 +12,6 @@ const ContainerScroll = dynamic(() => import("@/components/ui/container-scroll-a
 
 // Lazy-loaded client utilities
 const ScrollProgress = dynamic(() => import("@/components/ui/scroll-progress").then(mod => mod.ScrollProgress), { ssr: false });
-const EmojiReaction = dynamic(() => import("@/components/ui/emoji-reaction").then(mod => mod.EmojiReaction), { ssr: false });
 const KonamiCode = dynamic(() => import("@/components/ui/konami-code").then(mod => mod.KonamiCode), { ssr: false });
 
 export default function HomePage() {
