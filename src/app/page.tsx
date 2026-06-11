@@ -19,7 +19,7 @@ export default function HomePage() {
     <div className="bg-black min-h-screen">
       <div className="fixed inset-0 -z-20 pointer-events-none bg-black" />
       <ScrollProgress />
-      <EmojiReaction />
+    
       <KonamiCode />
 
       <div className="relative z-10">
