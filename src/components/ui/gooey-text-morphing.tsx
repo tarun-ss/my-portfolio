@@ -121,7 +121,7 @@ export function GooeyText({
             "text-white",
             textClassName
           )}
-        />
+        >{texts[0]}</span>
         <span
           ref={text2Ref}
           className={cn(
@@ -129,7 +129,8 @@ export function GooeyText({
             "text-white",
             textClassName
           )}
-        />
+          style={{ opacity: "0%" }}
+        >{texts[1]}</span>
       </div>
     </div>
   );
