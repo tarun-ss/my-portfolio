@@ -26,24 +26,50 @@ export default function HomePage() {
 
         <div className="relative bg-black/80 backdrop-blur-sm">
 
-          {/* SKILLS */}
+        {/* SKILLS */}
           <section id="skills" className="scroll-mt-20">
-            <ContainerScroll
-              titleComponent={
-                <h2 className="text-4xl font-semibold text-white text-center">
-                  A showcase of my
-                  <br />
-                  <span className="text-4xl sm:text-6xl md:text-[8rem] font-bold mt-1 leading-none">
-                    Technical Skills
-                  </span>
-                </h2>
-              }
-            >
-              <div className="w-full h-full transform-gpu scale-[0.8] md:scale-[0.9] flex items-center justify-center">
-                <CyberneticBentoComponent items={bentoSkills} />
+            {/* Desktop: fancy 3D scroll */}
+            <div className="hidden md:block">
+              <ContainerScroll
+                titleComponent={
+                  <h2 className="text-4xl font-semibold text-white text-center">
+                    A showcase of my
+                    <br />
+                    <span className="text-4xl sm:text-6xl md:text-[8rem] font-bold mt-1 leading-none">
+                      Technical Skills
+                    </span>
+                  </h2>
+                }
+              >
+                <div className="w-full h-full transform-gpu scale-[0.9] flex items-center justify-center">
+                  <CyberneticBentoComponent items={bentoSkills} />
+                </div>
+              </ContainerScroll>
+            </div>
+
+            {/* Mobile: clean flat layout */}
+            <div className="md:hidden px-4 py-16">
+              <h2 className="text-3xl font-bold text-white text-center mb-10">
+                Technical Skills
+              </h2>
+              <div className="grid grid-cols-1 gap-4">
+                {bentoSkills.map((skill: any, i: number) => (
+                  <div key={i} className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
+                    <h3 className="text-lg font-semibold text-white mb-3">{skill.title}</h3>
+                    <p className="text-zinc-400 text-sm mb-4">{skill.description}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {skill.tags?.map((tag: string, j: number) => (
+                        <span key={j} className="text-xs px-3 py-1.5 rounded-full bg-white/5 border border-zinc-700 text-zinc-300">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </div>
-            </ContainerScroll>
+            </div>
           </section>
+
 
           {/* EXPERIENCE */}
           <section id="experience" className="scroll-mt-20">
