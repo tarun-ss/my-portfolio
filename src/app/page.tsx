@@ -11,13 +11,19 @@ const ContainerScroll = dynamic(() => import("@/components/ui/container-scroll-a
 const ScrollProgress = dynamic(() => import("@/components/ui/scroll-progress").then(mod => mod.ScrollProgress), { ssr: false });
 
 export default function HomePage() {
+  const mobileSkills = [
+    { title: "Programming Languages", tags: ["Python", "Java", "JavaScript", "HTML", "R", "R Markdown"] },
+    { title: "Libraries & Frameworks", tags: ["Scikit-learn", "Pandas", "NumPy", "Streamlit", "U-Net"] },
+    { title: "Developer Tools", tags: ["Git", "GitHub", "Jupyter", "VS Code"] },
+    { title: "Spoken Languages", tags: ["English (C1)", "German (A1)"] },
+  ];
+
   return (
     <div className="bg-black min-h-screen">
       <div className="fixed inset-0 -z-20 pointer-events-none bg-black" />
       <ScrollProgress />
 
       <div className="relative z-10">
-        {/* HERO */}
         <section id="about" className="relative pt-24 sm:pt-28 md:pt-32 pb-10 sm:pb-16 md:pb-20 flex items-center justify-center bg-black">
           <div className="relative z-10 w-full max-w-7xl mx-auto p-4 md:p-8">
             <BentoIntro />
@@ -26,9 +32,8 @@ export default function HomePage() {
 
         <div className="relative bg-black/80 backdrop-blur-sm">
 
-        {/* SKILLS */}
+          {/* SKILLS */}
           <section id="skills" className="scroll-mt-20">
-            {/* Desktop: fancy 3D scroll */}
             <div className="hidden md:block">
               <ContainerScroll
                 titleComponent={
@@ -47,18 +52,10 @@ export default function HomePage() {
               </ContainerScroll>
             </div>
 
-                        {/* Mobile: clean flat layout */}
             <div className="md:hidden px-4 py-16">
-              <h2 className="text-3xl font-bold text-white text-center mb-10">
-                Technical Skills
-              </h2>
+              <h2 className="text-3xl font-bold text-white text-center mb-10">Technical Skills</h2>
               <div className="grid grid-cols-1 gap-4">
-                {[
-                  { title: "Programming Languages", tags: ["Python", "Java", "JavaScript", "HTML", "R", "R Markdown"] },
-                  { title: "Libraries & Frameworks", tags: ["Scikit-learn", "Pandas", "NumPy", "Streamlit", "U-Net"] },
-                  { title: "Developer Tools", tags: ["Git", "GitHub", "Jupyter", "VS Code"] },
-                  { title: "Spoken Languages", tags: ["English (C1)", "German (A1)"] },
-                ].map((skill, i) => (
+                {mobileSkills.map((skill, i) => (
                   <div key={i} className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
                     <h3 className="text-lg font-semibold text-white mb-4">{skill.title}</h3>
                     <div className="flex flex-wrap gap-2">
@@ -72,10 +69,7 @@ export default function HomePage() {
                 ))}
               </div>
             </div>
-
-            </div>
           </section>
-
 
           {/* EXPERIENCE */}
           <section id="experience" className="scroll-mt-20">
@@ -85,9 +79,7 @@ export default function HomePage() {
           {/* PROJECTS */}
           <section id="projects" className="py-20 lg:py-32 scroll-mt-20">
             <div className="container mx-auto px-4">
-              <h2 className="text-4xl md:text-7xl font-bold text-white text-center mb-12">
-                My Projects
-              </h2>
+              <h2 className="text-4xl md:text-7xl font-bold text-white text-center mb-12">My Projects</h2>
               <ProjectsGrid />
             </div>
           </section>
