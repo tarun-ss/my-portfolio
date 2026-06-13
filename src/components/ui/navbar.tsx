@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Github, Linkedin, Mail, Menu, X } from "lucide-react";
-import { GradientButton } from "@/components/ui/gradient-button";
+import { Github, Linkedin, Menu, X, FileText } from "lucide-react";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,77 +17,102 @@ export function Navbar() {
   return (
     <>
       <header className="fixed top-4 left-0 right-0 z-50 px-4">
-        <div className="container mx-auto flex items-center justify-between p-4 bg-black/30 backdrop-blur-sm border border-white/10 rounded-full">
-          <Link href="/" className="text-xl sm:text-2xl font-bold text-white">
+        <div className="container mx-auto flex items-center justify-between p-3 sm:p-4 bg-black/40 backdrop-blur-md border border-white/10 rounded-full shadow-lg">
+          <Link href="/" className="text-lg sm:text-xl font-bold text-white tracking-tight">
             Tarun S.
           </Link>
 
-          <nav className="hidden md:flex items-center gap-4 text-lg font-medium text-slate-300">
+          <nav className="hidden md:flex items-center gap-1 text-sm font-medium text-slate-300">
             {navLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="hover:text-white transition-colors px-3 py-2">
+              <Link
+                key={link.href}
+                href={link.href}
+                className="hover:text-white transition-colors px-3 py-2 rounded-full hover:bg-white/5"
+              >
                 {link.label}
               </Link>
             ))}
           </nav>
 
-          <div className="hidden md:flex items-center gap-4">
-            <GradientButton asChild variant="variant" className="p-3 rounded-full min-w-0">
-              <a href="https://github.com/tarun-ss" target="_blank" rel="noopener noreferrer">
-                <Github className="h-7 w-7 text-white" />
-              </a>
-            </GradientButton>
-            <GradientButton asChild variant="variant" className="p-3 rounded-full min-w-0">
-              <a href="https://linkedin.com/in/tarun-s-192273223" target="_blank" rel="noopener noreferrer">
-                <Linkedin className="h-7 w-7 text-white" />
-              </a>
-            </GradientButton>
-            <GradientButton asChild className="px-6 py-3 text-lg">
-              <Link href="#contact">
-                <Mail className="h-5 w-5 mr-2" />
-                Contact
-              </Link>
-            </GradientButton>
+          <div className="hidden md:flex items-center gap-3">
+            <a
+              href="https://github.com/tarun-ss"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-full text-slate-300 hover:text-white hover:bg-white/10 transition-all"
+            >
+              <Github className="h-5 w-5" />
+            </a>
+            <a
+              href="https://linkedin.com/in/tarun-s-192273223"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-full text-slate-300 hover:text-white hover:bg-white/10 transition-all"
+            >
+              <Linkedin className="h-5 w-5" />
+            </a>
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-black text-sm font-semibold hover:bg-zinc-200 transition-all"
+            >
+              <FileText className="h-4 w-4" />
+              Resume
+            </a>
           </div>
 
-          <div className="md:hidden">
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              {isMenuOpen ? <X className="h-8 w-8 text-white" /> : <Menu className="h-8 w-8 text-white" />}
-            </button>
-          </div>
+          <button
+            className="md:hidden p-2 rounded-full text-white hover:bg-white/10 transition-all"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
         </div>
       </header>
 
       {isMenuOpen && (
-        <div className="md:hidden fixed top-24 left-0 right-0 z-40 mx-4">
-          <div className="bg-black/50 backdrop-blur-lg border border-white/10 rounded-2xl p-6 flex flex-col items-center gap-6">
+        <div className="md:hidden fixed top-20 left-4 right-4 z-40">
+          <div className="bg-zinc-900/95 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col items-center gap-4 shadow-2xl">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-2xl text-slate-300 hover:text-white transition-colors"
+                className="text-xl text-slate-300 hover:text-white transition-colors w-full text-center py-2 rounded-xl hover:bg-white/5"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
-            <div className="flex items-center gap-4 mt-4">
-              <GradientButton asChild variant="variant" className="p-3 rounded-full min-w-0">
-                <a href="https://github.com/tarun-ss" target="_blank" rel="noopener noreferrer">
-                  <Github className="h-7 w-7 text-white" />
-                </a>
-              </GradientButton>
-              <GradientButton asChild variant="variant" className="p-3 rounded-full min-w-0">
-                <a href="https://linkedin.com/in/tarun-s-192273223" target="_blank" rel="noopener noreferrer">
-                  <Linkedin className="h-7 w-7 text-white" />
-                </a>
-              </GradientButton>
+            <div className="w-full h-px bg-white/10 my-2" />
+            <div className="flex items-center gap-4">
+              <a
+                href="https://github.com/tarun-ss"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 rounded-full text-slate-300 hover:text-white hover:bg-white/10 transition-all"
+              >
+                <Github className="h-6 w-6" />
+              </a>
+              <a
+                href="https://linkedin.com/in/tarun-s-192273223"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 rounded-full text-slate-300 hover:text-white hover:bg-white/10 transition-all"
+              >
+                <Linkedin className="h-6 w-6" />
+              </a>
             </div>
-            <GradientButton asChild className="w-full mt-4 py-4 text-xl">
-              <Link href="#contact" onClick={() => setIsMenuOpen(false)}>
-                <Mail className="h-6 w-6 mr-2" />
-                Contact
-              </Link>
-            </GradientButton>
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full bg-white text-black font-semibold hover:bg-zinc-200 transition-all"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <FileText className="h-5 w-5" />
+              Download Resume
+            </a>
           </div>
         </div>
       )}
