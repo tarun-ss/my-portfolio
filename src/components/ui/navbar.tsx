@@ -52,7 +52,7 @@ export function Navbar() {
               <Linkedin className="h-5 w-5" />
             </a>
             <a
-              href="/resume.pdf"
+              href="/Tarun_sathyanarayanan_resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-black text-sm font-semibold hover:bg-zinc-200 transition-all"
