@@ -57,7 +57,8 @@ export default function HomePage() {
       <AnimatedBackground />
       <ScrollProgress />
 
-      <div className="relative z-10">
+      <div className="relative" style={{ zIndex: 1 }}>
+
 
         {/* HERO */}
         <section id="about" className="relative pt-24 sm:pt-28 md:pt-32 pb-10 sm:pb-16 md:pb-20 flex items-center justify-center bg-transparent">
