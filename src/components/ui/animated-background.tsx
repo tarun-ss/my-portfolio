@@ -1,102 +1,100 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
-export const AnimatedBackground = () => {
-    const [isMobile, setIsMobile] = useState(false);
+export function AnimatedBackground() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-    useEffect(() => {
-        setIsMobile(window.innerWidth < 768);
-    }, []);
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
-    return (
-        <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
-            {/* Animated gradient blobs - fewer on mobile */}
-            <motion.div
-                className="absolute w-[500px] h-[500px] rounded-full blur-3xl opacity-30"
-                style={{
-                    background: "radial-gradient(circle, rgba(99, 102, 241, 0.8) 0%, rgba(99, 102, 241, 0) 70%)",
-                }}
-                animate={{
-                    x: ["-10%", "110%"],
-                    y: ["10%", "80%"],
-                }}
-                transition={{
-                    duration: isMobile ? 30 : 20,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    ease: "easeInOut",
-                }}
-            />
+    let animationId: number;
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
 
-            <motion.div
-                className="absolute w-[600px] h-[600px] rounded-full blur-3xl opacity-30"
-                style={{
-                    background: "radial-gradient(circle, rgba(168, 85, 247, 0.8) 0%, rgba(168, 85, 247, 0) 70%)",
-                }}
-                animate={{
-                    x: ["110%", "-10%"],
-                    y: ["80%", "10%"],
-                }}
-                transition={{
-                    duration: isMobile ? 35 : 25,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    ease: "easeInOut",
-                }}
-            />
+    const PARTICLE_COUNT = Math.floor((width * height) / 15000);
+    
+    interface Particle {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      radius: number;
+      opacity: number;
+    }
 
-            {/* Only show these blobs on desktop */}
-            {!isMobile && (
-                <>
-                    <motion.div
-                        className="absolute w-[450px] h-[450px] rounded-full blur-3xl opacity-30"
-                        style={{
-                            background: "radial-gradient(circle, rgba(236, 72, 153, 0.8) 0%, rgba(236, 72, 153, 0) 70%)",
-                        }}
-                        animate={{
-                            x: ["50%", "30%"],
-                            y: ["-10%", "110%"],
-                        }}
-                        transition={{
-                            duration: 22,
-                            repeat: Infinity,
-                            repeatType: "reverse",
-                            ease: "easeInOut",
-                        }}
-                    />
+    const particles: Particle[] = Array.from({ length: PARTICLE_COUNT }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      radius: Math.random() * 1.5 + 0.5,
+      opacity: Math.random() * 0.5 + 0.1,
+    }));
 
-                    <motion.div
-                        className="absolute w-[550px] h-[550px] rounded-full blur-3xl opacity-30"
-                        style={{
-                            background: "radial-gradient(circle, rgba(34, 211, 238, 0.8) 0%, rgba(34, 211, 238, 0) 70%)",
-                        }}
-                        animate={{
-                            x: ["30%", "70%"],
-                            y: ["110%", "-10%"],
-                        }}
-                        transition={{
-                            duration: 28,
-                            repeat: Infinity,
-                            repeatType: "reverse",
-                            ease: "easeInOut",
-                        }}
-                    />
-                </>
-            )}
+    const CONNECTION_DISTANCE = 120;
 
-            {/* Mesh grid overlay */}
-            <div
-                className="absolute inset-0 opacity-10"
-                style={{
-                    backgroundImage: `
-            linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px)
-          `,
-                    backgroundSize: "50px 50px",
-                }}
-            />
-        </div>
-    );
-};
+    function draw() {
+      ctx!.clearRect(0, 0, width, height);
+
+      // Draw connections
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < CONNECTION_DISTANCE) {
+            const alpha = (1 - dist / CONNECTION_DISTANCE) * 0.15;
+            ctx!.beginPath();
+            ctx!.strokeStyle = `rgba(255,255,255,${alpha})`;
+            ctx!.lineWidth = 0.5;
+            ctx!.moveTo(particles[i].x, particles[i].y);
+            ctx!.lineTo(particles[j].x, particles[j].y);
+            ctx!.stroke();
+          }
+        }
+      }
+
+      // Draw particles
+      for (const p of particles) {
+        ctx!.beginPath();
+        ctx!.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx!.fillStyle = `rgba(255,255,255,${p.opacity})`;
+        ctx!.fill();
+
+        // Move
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Bounce
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+      }
+
+      animationId = requestAnimationFrame(draw);
+    }
+
+    draw();
+
+    const handleResize = () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    };
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 -z-10 pointer-events-none opacity-40"
+    />
+  );
+}
