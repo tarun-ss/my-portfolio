@@ -244,7 +244,7 @@ export function PremiumContact({ contactDetails }: { contactDetails: any }) {
                     <motion.button
                       type="submit"
                       disabled={isSubmitting}
-                      className="btn-wipe w-full relative group bg-accent text-lg font-bold py-3.5 px-6 rounded-lg transition-all disabled:opacity-50 hover:text-white"
+                      className="w-full relative group border border-accent/70 text-accent py-3.5 px-6 rounded-lg transition-colors duration-300 disabled:opacity-50 hover:bg-accent hover:text-base"
                       whileTap={{ scale: 0.99 }}
                     >
                       <span className="relative flex items-center justify-center gap-2 font-mono text-sm uppercase tracking-[0.2em]">
