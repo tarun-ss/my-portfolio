@@ -14,7 +14,7 @@ export const ExperienceCard = ({ children }: { children: React.ReactNode }) => {
 };
 
 const chipClass =
-  "bg-surface2/70 border border-line text-muted font-mono text-sm uppercase tracking-wider px-3 py-1.5 rounded-full hover:border-accent/60 hover:text-accent transition-colors duration-300 cursor-default";
+  "bg-surface2/70 border border-line text-ink/80 font-mono text-[11px] uppercase tracking-wider px-3 py-1.5 rounded-full hover:border-accent/60 hover:text-accent transition-colors duration-300 cursor-default";
 
 // Data for the skills bento grid
 export const bentoSkills = [
@@ -112,10 +112,10 @@ export const experienceData = [
       <ExperienceCard>
         <div className="flex items-center gap-3 mb-2">
           <GraduationCap className="h-6 w-6 text-accent" />
-          <h3 className="font-bold text-2xl text-ink">Masters in Data Science</h3>
+          <h3 className="font-bold text-xl text-ink">Masters in Data Science</h3>
         </div>
-        <p className="font-mono text-sm uppercase tracking-wider text-muted mb-4">University of Basel — Basel, Switzerland</p>
-        <ul className="list-disc list-inside text-muted space-y-2 marker:text-accent">
+        <p className="font-mono text-xs uppercase tracking-wider text-muted mb-4">University of Basel — Basel, Switzerland</p>
+        <ul className="list-disc list-inside text-ink/70 space-y-2 marker:text-accent">
           <li>Focus: Natural sciences, mathematics, and statistics.</li>
         </ul>
       </ExperienceCard>
@@ -127,10 +127,10 @@ export const experienceData = [
       <ExperienceCard>
         <div className="flex items-center gap-3 mb-2">
           <Briefcase className="h-6 w-6 text-accent" />
-          <h3 className="font-bold text-2xl text-ink">Technical Intern</h3>
+          <h3 className="font-bold text-xl text-ink">Technical Intern</h3>
         </div>
-        <p className="font-mono text-sm uppercase tracking-wider text-muted mb-4">Hindustan Aeronautics Limited — India</p>
-        <ul className="list-disc list-inside text-muted space-y-2 marker:text-accent">
+        <p className="font-mono text-xs uppercase tracking-wider text-muted mb-4">Hindustan Aeronautics Limited — India</p>
+        <ul className="list-disc list-inside text-ink/70 space-y-2 marker:text-accent">
           <li>Gained valuable exposure to aerospace systems and engineering processes within a high-tech manufacturing environment.</li>
           <li>Applied technical knowledge and engineering principles to support practical systems workflows.</li>
         </ul>
@@ -143,10 +143,10 @@ export const experienceData = [
       <ExperienceCard>
         <div className="flex items-center gap-3 mb-2">
           <GraduationCap className="h-6 w-6 text-accent" />
-          <h3 className="font-bold text-2xl text-ink">B.Tech in Electronics & Computer Engineering</h3>
+          <h3 className="font-bold text-xl text-ink">B.Tech in Electronics & Computer Engineering</h3>
         </div>
-        <p className="font-mono text-sm uppercase tracking-wider text-muted mb-4">Vellore Institute of Technology — Chennai, India</p>
-        <ul className="list-disc list-inside text-muted space-y-2 marker:text-accent">
+        <p className="font-mono text-xs uppercase tracking-wider text-muted mb-4">Vellore Institute of Technology — Chennai, India</p>
+        <ul className="list-disc list-inside text-ink/70 space-y-2 marker:text-accent">
           <li>CGPA: 8.18 / 10.0</li>
           <li>Coursework: Machine Learning, Computer Vision, Signal Processing, Data Structures, Algorithms, Embedded Systems, and Hardware-Software Integration.</li>
         </ul>

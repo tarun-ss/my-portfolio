@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Magnetic } from "@/components/ui/magnetic";
+import { ScrambleText } from "@/components/ui/scramble-text";
 
 const WORDMARK = ["T", "A", "R", "U", "N"];
 const ROLES = ["Data Scientist", "ML Engineer", "Problem Solver", "Developer"];
@@ -21,19 +22,8 @@ function RoleRotator() {
   }, []);
 
   return (
-    <span className="relative inline-flex h-[1.4em] overflow-hidden align-bottom">
-      <AnimatePresence mode="wait">
-        <motion.span
-          key={ROLES[index]}
-          initial={{ y: "110%" }}
-          animate={{ y: 0 }}
-          exit={{ y: "-110%" }}
-          transition={{ duration: 0.5, ease: EASE }}
-          className="whitespace-nowrap text-accent"
-        >
-          {ROLES[index]}
-        </motion.span>
-      </AnimatePresence>
+    <span className="inline-flex align-bottom">
+      <ScrambleText text={ROLES[index]} className="whitespace-nowrap text-accent" />
     </span>
   );
 }
@@ -57,7 +47,7 @@ export function BentoIntro() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: LOAD_DELAY + 0.7 }}
-        className="flex items-center justify-between border-b border-line pb-4 font-mono text-xs uppercase tracking-[0.3em] text-ink/50"
+        className="flex items-center justify-between border-b border-line pb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-muted"
       >
         <span>Portfolio © 2026</span>
         <span className="hidden md:inline">MSc Data Science — Uni. Basel</span>
@@ -100,9 +90,9 @@ export function BentoIntro() {
           initial={{ clipPath: "inset(100% 0% 0% 0%)" }}
           animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
           transition={{ duration: 0.9, ease: EASE, delay: LOAD_DELAY + 0.55 }}
-          className="group flex flex-col md:col-span-5 lg:col-span-4"
+          className="group md:col-span-5 lg:col-span-4"
         >
-          <div className="relative aspect-[4/5] flex-1 overflow-hidden rounded-xl bg-surface">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-surface">
             <Image
               src="/IMG_2612.jpeg"
               alt="Tarun Sathyanarayanan"
@@ -112,13 +102,13 @@ export function BentoIntro() {
               sizes="(max-width: 768px) 100vw, 33vw"
             />
           </div>
-          <figcaption className="mt-3 flex items-center justify-between font-mono text-xs uppercase tracking-[0.25em] text-ink/50">
+          <figcaption className="mt-3 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.25em] text-muted">
             <span>Tarun Sathyanarayanan</span>
             <span className="text-accent">Fig. 01</span>
           </figcaption>
         </motion.figure>
 
-        <div className="flex h-full flex-col md:col-span-7 lg:col-span-8">
+        <div className="flex flex-col justify-between md:col-span-7 lg:col-span-8">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -139,7 +129,7 @@ export function BentoIntro() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: LOAD_DELAY + 0.85 }}
-            className="mt-auto flex flex-wrap items-center gap-5 pt-10"
+            className="mt-10 flex flex-wrap items-center gap-5"
           >
             <Magnetic>
               <a
@@ -175,10 +165,10 @@ export function BentoIntro() {
             key={item.label}
             className={`border-line px-4 py-5 md:px-6 ${i > 0 ? "border-l max-md:[&:nth-child(3)]:border-l-0" : ""} max-md:[&:nth-child(n+3)]:border-t`}
           >
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-ink/50">
+            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">
               {item.label}
             </p>
-            <p className="mt-2 flex items-center gap-2 text-[15px] font-medium text-ink">
+            <p className="mt-2 flex items-center gap-2 text-sm font-medium text-ink">
               {item.dot && (
                 <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />

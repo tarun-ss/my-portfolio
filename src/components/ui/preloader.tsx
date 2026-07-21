@@ -54,7 +54,7 @@ export function Preloader() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7, duration: 0.4 }}
-            className="mt-4 font-mono text-sm uppercase tracking-[0.35em] text-muted"
+            className="mt-4 font-mono text-[11px] uppercase tracking-[0.35em] text-muted"
           >
             Data Science · ML Engineering
           </motion.span>

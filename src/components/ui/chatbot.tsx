@@ -201,7 +201,7 @@ export const AiChatbot = () => {
               transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
               className="bg-zinc-900 border border-white/10 p-4 rounded-lg shadow-2xl max-w-xs text-center"
             >
-              <p className="text-white text-base">
+              <p className="text-white text-sm">
                 Have a question about Tarun? Click me to ask his AI assistant!
               </p>
             </motion.div>
@@ -233,8 +233,8 @@ export const AiChatbot = () => {
                     <div className="flex justify-center items-center h-full">
                       <div className="text-center text-white/40">
                         <Bot className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                        <p className="text-base">Ask me anything about Tarun!</p>
-                        <p className="text-sm mt-2">Powered by Groq ⚡</p>
+                        <p className="text-sm">Ask me anything about Tarun!</p>
+                        <p className="text-xs mt-2">Powered by Groq ⚡</p>
                       </div>
                     </div>
                   )}
@@ -243,7 +243,7 @@ export const AiChatbot = () => {
                       {msg.sender === 'bot' && <Bot className="text-white/80 shrink-0 mt-1"/>}
                       <div className={cn("p-3 rounded-xl max-w-[80%]", msg.sender === 'user' ? 'bg-blue-600 text-white rounded-br-none' : 'bg-zinc-800 text-white rounded-bl-none')}>
                         <div className="flex items-center gap-2">
-                          {msg.text && <p className="text-base break-words whitespace-pre-wrap">{msg.text}</p>}
+                          {msg.text && <p className="text-sm break-words whitespace-pre-wrap">{msg.text}</p>}
                           {isSpeaking && speakingMessageIndex === index && (
                             <Volume2 className="w-4 h-4 text-white/70 animate-pulse"/>
                           )}
@@ -273,7 +273,7 @@ export const AiChatbot = () => {
                 {selectedImage && (
                   <div className="mb-2 flex items-center gap-2 p-2 bg-zinc-800 rounded-lg">
                     <FileImage className="text-white/50"/>
-                    <p className="text-sm text-white truncate">{selectedImage.name}</p>
+                    <p className="text-xs text-white truncate">{selectedImage.name}</p>
                     <button onClick={() => setSelectedImage(null)}><X size={16} className="text-white/50 hover:text-white"/></button>
                   </div>
                 )}

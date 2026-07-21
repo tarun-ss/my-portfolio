@@ -38,7 +38,7 @@ const FormInput = ({ icon, type = "text", placeholder, value, onChange, error, n
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(name, e.target.value)}
-        className={`w-full pl-11 pr-4 py-3.5 bg-base border rounded-lg text-ink placeholder-muted focus:outline-none focus:border-accent/60 transition-all text-base ${error ? 'border-red-500/50' : 'border-line'
+        className={`w-full pl-11 pr-4 py-3.5 bg-base border rounded-lg text-ink placeholder-muted focus:outline-none focus:border-accent/60 transition-all text-sm ${error ? 'border-red-500/50' : 'border-line'
           }`}
       />
       <AnimatePresence>
@@ -47,7 +47,7 @@ const FormInput = ({ icon, type = "text", placeholder, value, onChange, error, n
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="text-red-400 text-sm mt-1.5"
+            className="text-red-400 text-xs mt-1.5"
           >
             {error}
           </motion.p>
@@ -79,8 +79,8 @@ const ContactMethod = ({ icon, title, value, link }: ContactMethodProps) => {
           <Icon className="w-5 h-5 text-ink transition-colors duration-500 group-hover:text-accent" />
         </div>
         <div className="flex-1 min-w-0">
-          <h4 className="font-mono text-[12px] uppercase tracking-[0.25em] text-muted mb-1">{title}</h4>
-          <p className="text-ink text-base truncate">{value}</p>
+          <h4 className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted mb-1">{title}</h4>
+          <p className="text-ink text-sm truncate">{value}</p>
         </div>
         <ArrowUpRight className="w-4 h-4 text-muted group-hover:text-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
       </div>
@@ -187,7 +187,7 @@ export function PremiumContact({ contactDetails }: { contactDetails: any }) {
         viewport={{ once: true, amount: 0.2 }}
       >
         <motion.p
-          className="text-lg sm:text-lg text-muted max-w-2xl leading-relaxed mb-12"
+          className="text-base sm:text-lg text-muted max-w-2xl leading-relaxed mb-12"
           variants={fadeInUp}
         >
           Have a project in mind or just want to say hello? I&apos;d love to hear from you.
@@ -218,12 +218,12 @@ export function PremiumContact({ contactDetails }: { contactDetails: any }) {
                         rows={5}
                         value={formData.message}
                         onChange={(e) => handleInputChange('message', e.target.value)}
-                        className={`w-full pl-11 pr-4 py-3.5 bg-base border rounded-lg text-ink placeholder-muted focus:outline-none focus:border-accent/60 transition-all resize-none text-base ${errors.message ? 'border-red-500/50' : 'border-line'
+                        className={`w-full pl-11 pr-4 py-3.5 bg-base border rounded-lg text-ink placeholder-muted focus:outline-none focus:border-accent/60 transition-all resize-none text-sm ${errors.message ? 'border-red-500/50' : 'border-line'
                           }`}
                       />
                       <AnimatePresence>
                         {errors.message && (
-                          <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="text-red-400 text-sm mt-1.5">{errors.message}</motion.p>
+                          <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="text-red-400 text-xs mt-1.5">{errors.message}</motion.p>
                         )}
                       </AnimatePresence>
                     </div>
@@ -235,7 +235,7 @@ export function PremiumContact({ contactDetails }: { contactDetails: any }) {
                         className="flex items-center gap-2 p-3.5 bg-red-500/10 border border-red-500/20 rounded-lg"
                       >
                         <AlertCircle className="h-4 w-4 text-red-400 shrink-0" />
-                        <p className="text-red-400 text-sm">
+                        <p className="text-red-400 text-xs">
                           Failed to send message. Please try again or contact me directly.
                         </p>
                       </motion.div>
@@ -244,10 +244,10 @@ export function PremiumContact({ contactDetails }: { contactDetails: any }) {
                     <motion.button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full relative group border border-accent/70 text-accent py-3.5 px-6 rounded-lg transition-colors duration-300 disabled:opacity-50 hover:bg-accent hover:text-base"
+                      className="btn-wipe w-full relative group bg-accent text-base font-bold py-3.5 px-6 rounded-lg transition-all disabled:opacity-50 hover:text-white"
                       whileTap={{ scale: 0.99 }}
                     >
-                      <span className="relative flex items-center justify-center gap-2 font-mono text-sm uppercase tracking-[0.2em]">
+                      <span className="relative flex items-center justify-center gap-2 font-mono text-xs uppercase tracking-[0.2em]">
                         {isSubmitting ? (
                           <motion.div
                             className="w-4 h-4 border-2 border-base/30 border-t-base rounded-full"
@@ -278,13 +278,13 @@ export function PremiumContact({ contactDetails }: { contactDetails: any }) {
                     >
                       <CheckCircle className="w-8 h-8 text-accent" />
                     </motion.div>
-                    <h3 className="text-2xl font-bold text-ink mb-3">Message Sent!</h3>
-                    <p className="text-muted text-base mb-5">
+                    <h3 className="text-xl font-bold text-ink mb-3">Message Sent!</h3>
+                    <p className="text-muted text-sm mb-5">
                       Thank you for reaching out. I&apos;ll get back to you as soon as possible.
                     </p>
                     <motion.button
                       onClick={() => setIsSubmitted(false)}
-                      className="text-accent hover:text-ink transition-colors font-mono text-sm uppercase tracking-[0.2em]"
+                      className="text-accent hover:text-ink transition-colors font-mono text-xs uppercase tracking-[0.2em]"
                       whileHover={{ scale: 1.02 }}
                     >
                       Send another message

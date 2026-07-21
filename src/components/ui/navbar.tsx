@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { Github, Linkedin, Menu, X, ArrowUpRight } from "lucide-react";
@@ -17,6 +17,7 @@ export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [baselTime, setBaselTime] = useState("--:--:--");
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -24,6 +25,20 @@ export function Navbar() {
     setHidden(latest > previous && latest > 180);
     setScrolled(latest > 24);
   });
+
+  useEffect(() => {
+    const fmt = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Europe/Zurich",
+      hour12: false,
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+    const update = () => setBaselTime(fmt.format(new Date()));
+    update();
+    const id = setInterval(update, 1000);
+    return () => clearInterval(id);
+  }, []);
 
   return (
     <>
@@ -36,10 +51,10 @@ export function Navbar() {
       >
         <div className="mx-auto flex max-w-[1600px] items-center justify-between px-5 py-4 md:px-10">
           <Link href="/" className="group flex items-baseline gap-1">
-            <span className="font-expanded text-xl font-black uppercase tracking-tight text-ink">
+            <span className="font-expanded text-lg font-black uppercase tracking-tight text-ink">
               Tarun
             </span>
-            <span className="font-expanded text-xl font-black uppercase tracking-tight text-accent transition-transform duration-300 group-hover:rotate-90 inline-block">
+            <span className="font-expanded text-lg font-black uppercase tracking-tight text-accent transition-transform duration-300 group-hover:rotate-90 inline-block">
               .
             </span>
           </Link>
@@ -49,15 +64,28 @@ export function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="link-line group font-mono text-sm uppercase tracking-[0.2em] text-muted transition-colors hover:text-ink"
+                className="group font-mono text-[11px] uppercase tracking-[0.2em]"
               >
-                <span className="mr-1 text-xs text-accent">{link.index}</span>
-                {link.label}
+                <span className="mr-1 text-[9px] text-accent">{link.index}</span>
+                <span className="relative inline-flex overflow-hidden align-bottom">
+                  <span className="text-muted transition-all duration-300 [transition-timing-function:cubic-bezier(0.65,0,0.35,1)] group-hover:-translate-y-full group-hover:text-ink">
+                    {link.label}
+                  </span>
+                  <span
+                    aria-hidden
+                    className="absolute inset-0 translate-y-full text-accent transition-transform duration-300 [transition-timing-function:cubic-bezier(0.65,0,0.35,1)] group-hover:translate-y-0"
+                  >
+                    {link.label}
+                  </span>
+                </span>
               </Link>
             ))}
           </nav>
 
           <div className="hidden items-center gap-4 lg:flex">
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
+              BSL {baselTime}
+            </span>
             <a
               href="https://github.com/tarun-ss"
               target="_blank"
@@ -80,7 +108,7 @@ export function Navbar() {
               href="/Tarun_sathyanarayanan_resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-wipe group inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 font-mono text-sm font-bold uppercase tracking-[0.15em] text-lg hover:text-white"
+              className="btn-wipe group inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-base hover:text-white"
             >
               Resume
               <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -119,8 +147,8 @@ export function Navbar() {
                       onClick={() => setIsMenuOpen(false)}
                       className="flex items-baseline gap-3 py-2"
                     >
-                      <span className="font-mono text-sm text-accent">{link.index}</span>
-                      <span className="font-expanded text-6xl font-black uppercase tracking-tight text-ink">
+                      <span className="font-mono text-xs text-accent">{link.index}</span>
+                      <span className="font-expanded text-5xl font-black uppercase tracking-tight text-ink">
                         {link.label}
                       </span>
                     </Link>
@@ -147,7 +175,7 @@ export function Navbar() {
                 href="/Tarun_sathyanarayanan_resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 font-mono text-sm font-bold uppercase tracking-[0.15em] text-lg"
+                className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-base"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Resume
